@@ -61,7 +61,10 @@
 
       thisProduct.renderInMenu();
       console.log('new Product', thisProduct);
+      thisProduct.getElements();
       thisProduct.initAccordion();
+      thisProduct.initOrderForm();
+      /*  thisProduct.processOrder(); */
 
     }
 
@@ -86,6 +89,20 @@
 
     }
 
+    getElements(){
+      const thisProduct = this;
+      thisProduct.accordionTrigger = thisProduct.element.querySelector(select.menuProduct.clickable);
+      console.log(thisProduct.accordionTrigger);
+      thisProduct.form = thisProduct.element.querySelector(select.menuProduct.form);
+      console.log(thisProduct.form);
+      thisProduct.formInputs = thisProduct.form.querySelectorAll(select.all.formInputs);
+      console.log(thisProduct.formInputs);
+      thisProduct.cartButton = thisProduct.element.querySelector(select.menuProduct.cartButton);
+      console.log(thisProduct.cartButton);
+      thisProduct.priceElem = thisProduct.element.querySelector(select.menuProduct.priceElem);
+      console.log(thisProduct.priceElem);
+    }
+
     initAccordion(){
       const thisProduct = this;
   
@@ -96,8 +113,8 @@
   
       /* START: click event listener to trigger */
   
-      clicableTrigger.addEventListener('click', function(event){
-        console.log('clicked');
+      thisProduct.accordionTrigger.addEventListener('click', function(event){
+        console.log(thisProduct.accordionTrigger);
   
         /* prevent default action for event */
   
@@ -131,14 +148,114 @@
   
         }
   
-        /* END LOOP: for each active product */
-  
+        /* END LOOP: for each active product */  
         
       });
   
       /* END: click event listener to trigger */
       
     }
+
+    initOrderForm(){
+
+      const thisProduct = this;
+      console.log(this.initOrderForm);
+
+      thisProduct.form.addEventListener('submit', function(event){
+        event.preventDefault();
+        thisProduct.processOrder();
+      });
+      
+      for(let input of thisProduct.formInputs){
+        input.addEventListener('change', function(){
+          thisProduct.processOrder();
+        });
+      }
+      
+      thisProduct.cartButton.addEventListener('click', function(event){
+        event.preventDefault();
+        thisProduct.processOrder();
+      });
+
+    }
+
+    processOrder(){
+      
+      const thisProduct = this;
+      console.log(this.processOrder);
+
+      const formData = utils.serializeFormToObject(thisProduct.form);
+      console.log('formData', formData);
+      
+
+      /*price of the product from thisProduct.data.price*/
+
+      let price = thisProduct.data.price;
+      console.log(price);
+
+      const paramsOfProduct = thisProduct.data.params;
+      console.log(paramsOfProduct);
+
+      
+
+      // /* START LOOP: for each paramId in thisProduct.data.params */
+      for(let paramId in paramsOfProduct){
+
+        //   /* save the element in thisProduct.data.params with key paramId as const param */
+
+        const param = paramsOfProduct[paramId];
+        console.log(param);
+
+        /* START LOOP: for each optionId in param.options */
+
+        for(let optionId in param.options){ 
+
+           /* save the element in param.options with key optionId as const option */
+
+          const option = param.options[optionId];
+          console.log(option);
+        
+          const optionSelected = formData.hasOwnProperty(paramId) && formData[paramId].indexOf(optionId) > -1;
+          console.log(optionSelected);
+
+          /* START IF: if option is selected and option is not default */
+
+
+          if(optionSelected && !option.default){
+
+            /* add price of option to variable price */
+
+            price += option.price;
+
+            /* END IF: if option is selected and option is not default */
+
+            /* START ELSE IF: if option is not selected and option is default */
+
+          } else if(!optionSelected && option.default){
+
+            /* deduct price of option from price */
+
+            price -= option.price;
+
+          }
+
+          /* END ELSE IF: if option is not selected and option is default */
+        }
+
+          /* END LOOP: for each optionId in param.options */
+      
+
+      } 
+
+      /* set the contents of thisProduct.priceElem to be the value of variable price */
+
+      /*put price ito the element of thisProduct.priceElem*/
+
+      thisProduct.priceElem.innerHTML = price;
+
+
+    }
+
     
 
     
