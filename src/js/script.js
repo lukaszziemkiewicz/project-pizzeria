@@ -210,7 +210,7 @@
 
         for(let optionId in param.options){ 
 
-           /* save the element in param.options with key optionId as const option */
+          /* save the element in param.options with key optionId as const option */
 
           const option = param.options[optionId];
           console.log(option);
@@ -247,7 +247,7 @@
 
           const allImagesOptionId = thisProduct.imageWrapper.querySelectorAll(`.${paramId}-${optionId}`);
           console.log(allImagesOptionId);
-          debugger;
+          
 
           
           if(optionSelected){
@@ -266,7 +266,7 @@
 
         }
 
-          /* END LOOP: for each optionId in param.options */
+        /* END LOOP: for each optionId in param.options */
       
 
       } 
