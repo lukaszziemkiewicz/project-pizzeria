@@ -240,6 +240,30 @@
           }
 
           /* END ELSE IF: if option is not selected and option is default */
+
+          const classActiveImageVis = classNames.menuProduct.imageVisible;
+          console.log(classActiveImageVis);
+
+
+          const allImagesOptionId = thisProduct.imageWrapper.querySelectorAll(`.${paramId}-${optionId}`);
+          console.log(allImagesOptionId);
+          debugger;
+
+          
+          if(optionSelected){
+
+            for (let image of allImagesOptionId) {
+              image.classList.add(classNames.menuProduct.imageVisible);
+            }
+
+          } else {
+
+            for (let image of allImagesOptionId) {
+              image.classList.remove(classNames.menuProduct.imageVisible);
+            }
+
+          }
+
         }
 
           /* END LOOP: for each optionId in param.options */
