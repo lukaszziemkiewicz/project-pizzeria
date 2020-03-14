@@ -20,7 +20,7 @@
       clickable: '.product__header',
       form: '.product__order',
       priceElem: '.product__total-price .price',
-      imageWrapper: '.product__images',
+      imageWrapper:'.product__images',
       amountWidget: '.widget-amount',
       cartButton: '[href="#add-to-cart"]',
     },
@@ -101,6 +101,8 @@
       console.log(thisProduct.cartButton);
       thisProduct.priceElem = thisProduct.element.querySelector(select.menuProduct.priceElem);
       console.log(thisProduct.priceElem);
+      thisProduct.imageWrapper = thisProduct.element.querySelector(select.menuProduct.imageWrapper);
+
     }
 
     initAccordion(){
@@ -248,8 +250,7 @@
           const allImagesOptionId = thisProduct.imageWrapper.querySelectorAll(`.${paramId}-${optionId}`);
           console.log(allImagesOptionId);
           
-
-          
+        
           if(optionSelected){
 
             for (let image of allImagesOptionId) {
