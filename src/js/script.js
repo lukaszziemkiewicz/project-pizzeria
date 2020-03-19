@@ -229,6 +229,7 @@
       const formData = utils.serializeFormToObject(thisProduct.form);
       // console.log('formData', formData);
       
+      thisProduct.params = {};
 
       /*price of the product from thisProduct.data.price*/
 
@@ -246,6 +247,7 @@
         //   /* save the element in thisProduct.data.params with key paramId as const param */
 
         const param = paramsOfProduct[paramId];
+
         // console.log(param);
 
         /* START LOOP: for each optionId in param.options */
@@ -290,9 +292,21 @@
 
           const allImagesOptionId = thisProduct.imageWrapper.querySelectorAll(`.${paramId}-${optionId}`);
           // console.log(allImagesOptionId);
+
           
-        
           if(optionSelected){
+
+            if(!thisProduct.params[paramId]){
+             
+              thisProduct.params[paramId] = {
+                label: param.label,
+                options: {},
+              };   
+            }
+            
+            thisProduct.params[paramId].options[optionId] = option.label;
+            console.log(thisProduct.params);
+          
 
             for (let image of allImagesOptionId) {
               image.classList.add(classNames.menuProduct.imageVisible);
@@ -322,15 +336,26 @@
       // price *= thisProduct.amountWidget ? thisProduct.amountWidget.value : thisProduct.priceElem.innerHTML;
       // console.log(price);
 
-      if (thisProduct.amountWidget) {
-        price *= thisProduct.amountWidget.value;
-      }
-      console.log(price);
+      // if (thisProduct.amountWidget) {
+      //   price *= thisProduct.amountWidget.value;
+      // }
+      // console.log(price);
 
-      thisProduct.priceElem.innerHTML = price;
-      console.log(thisProduct.priceElem.innerHTML);
+      // thisProduct.priceElem.innerHTML = price;
+      // console.log(thisProduct.priceElem.innerHTML);
+      
+      /* multiply price by amount */
       
 
+      if(thisProduct.amountWidget){
+
+        thisProduct.priceSingle = price;
+
+        thisProduct.price = thisProduct.priceSingle * thisProduct.amountWidget.value;
+      }
+
+      /* set the contents of thisProduct.priceElem to be the value of variable price */
+      thisProduct.priceElem.innerHTML = thisProduct.price;
 
 
     }
@@ -341,7 +366,7 @@
 
       thisProduct.amountWidget = new AmountWidget(thisProduct.amountWidgetElem);
 
-      // console.log(thisProduct.amountWidget);
+      // console.log(thisProduct.amountWidget); 
 
 
       thisProduct.amountWidgetElem.addEventListener('updated', function(){
@@ -355,6 +380,10 @@
     addToCart(){
 
       const thisProduct = this;
+
+      thisProduct.data.name = thisProduct.name;
+
+      thisProduct.amountWidget.value = thisProduct.amount;
 
       app.cart.add(thisProduct);
 
@@ -468,6 +497,8 @@
 
       thisCart.dom.toggleTrigger = thisCart.dom.wrapper.querySelector(select.cart.toggleTrigger);
 
+      thisCart.dom.productList = document.querySelector(select.containerOf.cart);
+
 
     }
 
@@ -484,6 +515,20 @@
     }
 
     add(menuProduct){
+
+      const thisProduct = this;
+
+      /*generate HTML based on template*/
+
+      const generatedHTML = templates.menuProduct(thisProduct);
+
+      /*create element using utils.createElementFromHTML */
+
+      const generatedDOM = utils.createDOMFromHTML(generatedHTML);
+      console.log(generatedDOM);
+
+      thisCart.dom.productList.generatedDOM;
+
 
       // const thisCart = this;
       console.log('adding product', menuProduct);
