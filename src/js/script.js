@@ -110,6 +110,7 @@
       /*generate HTML based on template*/
 
       const generatedHTML = templates.menuProduct(thisProduct.data);
+     
 
       /*create element using utils.createElementFromHTML */
 
@@ -345,7 +346,8 @@
       // console.log(thisProduct.priceElem.innerHTML);
       
       /* multiply price by amount */
-      
+
+   
 
       if(thisProduct.amountWidget){
 
@@ -353,6 +355,9 @@
 
         thisProduct.price = thisProduct.priceSingle * thisProduct.amountWidget.value;
       }
+
+      /* multiply price by amount */
+
 
       /* set the contents of thisProduct.priceElem to be the value of variable price */
       thisProduct.priceElem.innerHTML = thisProduct.price;
@@ -381,9 +386,9 @@
 
       const thisProduct = this;
 
-      thisProduct.data.name = thisProduct.name;
+      thisProduct.name = thisProduct.data.name;
 
-      thisProduct.amountWidget.value = thisProduct.amount;
+      thisProduct.amount = thisProduct.amountWidget.value;
 
       app.cart.add(thisProduct);
 
@@ -516,11 +521,12 @@
 
     add(menuProduct){
 
-      const thisProduct = this;
+      const thisCart = this;
 
       /*generate HTML based on template*/
 
-      const generatedHTML = templates.menuProduct(thisProduct);
+      const generatedHTML = templates.cartProduct(thisCart);
+      console.log(generatedHTML);
 
       /*create element using utils.createElementFromHTML */
 
