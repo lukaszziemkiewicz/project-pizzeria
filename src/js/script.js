@@ -528,7 +528,7 @@
 
       /*generate HTML based on template*/
 
-      const generatedHTML = templates.cartProduct(thisCart);
+      const generatedHTML = templates.cartProduct(menuProduct);
       console.log(generatedHTML);
 
       /*create element using utils.createElementFromHTML */
@@ -536,7 +536,7 @@
       const generatedDOM = utils.createDOMFromHTML(generatedHTML);
       console.log(generatedDOM);
 
-      thisCart.dom.productList.innerHTML = generatedDOM;
+      thisCart.dom.productList.appendChild(generatedDOM);
 
 
       // const thisCart = this;
