@@ -287,7 +287,7 @@
           /* END ELSE IF: if option is not selected and option is default */
 
           const classActiveImageVis = classNames.menuProduct.imageVisible;
-          // console.log(classActiveImageVis);
+          console.log(classActiveImageVis);
           // console.log(classActiveImageVis);
 
 
@@ -484,6 +484,8 @@
     constructor(element){
       const thisCart = this;
 
+      thisCart.deliveryFee = settings.cart.defaultDeliveryFee;
+
       thisCart.products = [];
 
       thisCart.getElements(element);
@@ -545,7 +547,34 @@
       thisCart.products.push(new CartProduct(menuProduct, generatedDOM));
       // console.log('thisCart.products', thisCart.products);
 
+      
+
     }
+
+    // update(){
+
+    //   const thisCart = this;
+
+    //   thisCart.totalNumber == 0;
+
+    //   thisCart.subtotalPrice == 0;
+
+    //   for(let thisCartProduct of thisCart.products ) {
+
+    //     thisCartProduct.thisCart.subtotalPrice = thisCart.subtotalPrice + price;
+
+    //     console.log(thisCartProduct.thisCart.subtotalPrice);
+
+    //     thisCartProduct.thisCart.totalNumber = thisCart.totalNumber + amount;
+
+    //   }
+
+    //   thisCart.totalPrice = thisCart.subtotalPrice + thisCart.deliveryFee;  
+
+
+
+
+    // }
   }
   
   class CartProduct {
@@ -554,16 +583,17 @@
 
       const thisCartProduct = this;
 
+      
 
       thisCartProduct.id = menuProduct.id;
 
       thisCartProduct.name = menuProduct.name;
 
-      thisCartProduct.price = thisCartProduct.amount*thisCartProduct.priceSingle;
+      thisCartProduct.price = menuProduct.amount*thisCartProduct.priceSingle;
 
       thisCartProduct.priceSingle = menuProduct.priceSingle;
 
-      thisCartProduct.amount = thisCartProduct.amountWidget.value;
+      thisCartProduct.amount = menuProduct.amountWidget.value;
 
       thisCartProduct.params = JSON.parse(JSON.stringify(menuProduct.params));
 
@@ -572,8 +602,8 @@
       // console.log ('thisCartProduct', thisCartProduct);
 
       // console.log ('productData', menuProduct); 
-
       thisCartProduct.initAmountWidget();
+      
 
     }
 
@@ -605,9 +635,13 @@
       // console.log(thisProduct.amountWidget); 
 
 
-      thisCartProduct.amountWidgetElem.addEventListener('updated', function(){
+      thisCartProduct.dom.amountWidget.addEventListener('updated', function(){
 
+        thisCartProduct.amount = thisCartProduct.amountWidget.value;
         
+        thisCartProduct.price = thisCartProduct.priceSingle * thisCartProduct.amount;
+
+        thisCartProduct.dom.price.innerHTML = thisCartProduct.price;
 
       });
 
