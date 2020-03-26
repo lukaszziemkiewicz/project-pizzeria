@@ -388,6 +388,7 @@
     addToCart(){
 
       const thisProduct = this;
+      console.log(thisProduct);
 
       thisProduct.name = thisProduct.data.name;
 
@@ -473,7 +474,9 @@
 
       const thisWidget = this;
 
-      const event = new Event('updated');
+      const event = new CustomEvent('updated', {
+        bubbles: true
+      });
       thisWidget.element.dispatchEvent(event);
 
     }
@@ -485,6 +488,8 @@
       const thisCart = this;
 
       thisCart.deliveryFee = settings.cart.defaultDeliveryFee;
+
+      // console.log(thisCart.deliveryFee);
 
       thisCart.products = [];
 
@@ -509,6 +514,14 @@
 
       thisCart.dom.productList = document.querySelector(select.cart.productList);
 
+      thisCart.renderTotalsKeys = ['totalNumber', 'totalPrice', 'subtotalPrice', 'deliveryFee'];
+
+      console.log(thisCart.renderTotalsKeys);
+
+      for(let key of thisCart.renderTotalsKeys){
+        thisCart.dom[key] = thisCart.dom.wrapper.querySelectorAll(select.cart[key]);
+        console.log(thisCart.dom[key]);
+      }
 
     }
 
@@ -521,6 +534,10 @@
         thisCart.dom.wrapper.classList.toggle(classNames.cart.wrapperActive);
 
       });
+
+      thisCart.dom.productList.addEventListener('updated', function(){
+        thisCart.update();
+      })
 
     }
 
@@ -545,36 +562,48 @@
       // console.log('adding product', menuProduct);
 
       thisCart.products.push(new CartProduct(menuProduct, generatedDOM));
-      // console.log('thisCart.products', thisCart.products);
+      console.log('thisCart.products', thisCart.products);
+
+      thisCart.update();
 
       
 
     }
 
-    // update(){
+    update(){
 
-    //   const thisCart = this;
+      const thisCart = this;
 
-    //   thisCart.totalNumber == 0;
+      thisCart.totalNumber = 0;
 
-    //   thisCart.subtotalPrice == 0;
+      console.log(thisCart.totalNumber);
 
-    //   for(let thisCartProduct of thisCart.products ) {
+      thisCart.subtotalPrice = 0;
 
-    //     thisCartProduct.thisCart.subtotalPrice = thisCart.subtotalPrice + price;
+      for(let  thisCartProduct of thisCart.products ) {
 
-    //     console.log(thisCartProduct.thisCart.subtotalPrice);
+        thisCart.subtotalPrice = thisCart.subtotalPrice + thisCartProduct.price;
 
-    //     thisCartProduct.thisCart.totalNumber = thisCart.totalNumber + amount;
+        console.log(thisCart.subtotalPrice);
 
-    //   }
+        thisCart.totalNumber = thisCart.totalNumber + thisCartProduct.amount;
 
-    //   thisCart.totalPrice = thisCart.subtotalPrice + thisCart.deliveryFee;  
+        console.log(thisCart.totalNumber);
 
+      }
 
+      thisCart.totalPrice = thisCart.subtotalPrice + thisCart.deliveryFee; 
+      
+      console.log(thisCart.totalPrice);
 
-
-    // }
+      for(let key of thisCart.renderTotalsKeys){
+        for(let elem of thisCart.dom[key]){
+          console.log(elem);
+          elem.innerHTML = thisCart[key];
+          console.log(elem.innerHTML);
+        }
+      }
+    }
   }
   
   class CartProduct {
@@ -589,11 +618,15 @@
 
       thisCartProduct.name = menuProduct.name;
 
-      thisCartProduct.price = menuProduct.amount*thisCartProduct.priceSingle;
+      thisCartProduct.price = menuProduct.price;
+
+      console.log(thisCartProduct.price);
 
       thisCartProduct.priceSingle = menuProduct.priceSingle;
 
-      thisCartProduct.amount = menuProduct.amountWidget.value;
+      console.log(thisCartProduct.priceSingle);
+
+      thisCartProduct.amount = menuProduct.amount;
 
       thisCartProduct.params = JSON.parse(JSON.stringify(menuProduct.params));
 
