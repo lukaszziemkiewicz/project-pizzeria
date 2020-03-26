@@ -541,11 +541,32 @@
       });
 
       
-      // thisCart.dom.productList.addEventListener('remove', function(){
-      //   thisCart.remove(event.detail.cartProduct);
-      // });
+      thisCart.dom.productList.addEventListener('remove', function(){
+        thisCart.remove(event.detail.cartProduct);
+      });
 
     }
+
+    remove(cartProduct){
+
+      const thisCart = this;
+
+      const index = thisCart.products.indexOf(cartProduct);
+
+      console.log(index);
+
+      thisCart.products = thisCart.products.splice(index,1);
+      
+      console.log(thisCart.products);
+      
+      cartProduct.dom.wrapper.remove();
+
+      thisCart.update();
+
+
+    }
+
+
 
     add(menuProduct){
 
@@ -597,7 +618,7 @@
         console.log(thisCart.totalNumber);
 
       }
-
+      
       thisCart.totalPrice = thisCart.subtotalPrice + thisCart.deliveryFee; 
       
       console.log(thisCart.totalPrice);
