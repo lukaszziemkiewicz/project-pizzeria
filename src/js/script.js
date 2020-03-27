@@ -558,8 +558,23 @@
       thisCart.products.splice(index,1);
       
       console.log(thisCart.products);
-      
+
+
       cartProduct.dom.wrapper.remove();
+
+      
+      if(thisCart.products = [] ){
+
+        const priceDeliveryToZero =  document.querySelector(select.cart.deliveryFee);
+
+        console.log(priceDeliveryToZero);
+  
+        priceDeliveryToZero.innerHTML = 0;
+  
+        console.log(priceDeliveryToZero.innerHTML);
+          
+        
+      }
 
       thisCart.update();
 
