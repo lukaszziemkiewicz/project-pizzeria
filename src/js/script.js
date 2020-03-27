@@ -555,7 +555,7 @@
 
       console.log(index);
 
-      thisCart.products = thisCart.products.splice(index,1);
+      thisCart.products.splice(index,1);
       
       console.log(thisCart.products);
       
@@ -618,7 +618,7 @@
         console.log(thisCart.totalNumber);
 
       }
-      
+
       thisCart.totalPrice = thisCart.subtotalPrice + thisCart.deliveryFee; 
       
       console.log(thisCart.totalPrice);
