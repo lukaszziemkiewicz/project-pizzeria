@@ -588,7 +588,6 @@
 
       for(let singleProduct  of thisCart.products ){
 
-        singleProduct.getData();
 
         const singleProductgetDataResult = singleProduct.getData();
 
@@ -842,16 +841,7 @@
 
       const thisCartProduct = this;
 
-      const getDataId = thisCartProduct.id;
-
-      const getDataPrice = thisCartProduct.price;
-      
-      const getDataPriceSingle = thisCartProduct.priceSingle;
-
-      const getDataParams = thisCartProduct.params;
-    
-      const getDataAmount = thisCartProduct.amount;
-
+      return thisCartProduct.id, thisCartProduct.price, thisCartProduct.priceSingle, thisCartProduct.params, thisCartProduct.amount;
 
     }
   }
