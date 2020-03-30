@@ -539,6 +539,8 @@
 
     }
 
+
+
     initActions(){
 
       const thisCart = this;
@@ -583,13 +585,15 @@
         subtotalPrice: thisCart.subtotalPrice,
         totalNumber: thisCart.totalNumber,
         deliveryFee: thisCart.deliveryFee,
-        products: thisCart.products,
+        products: [],
       };
 
       for(let singleProduct  of thisCart.products ){
 
-
+        
+        console.log(thisCart.Products);
         const singleProductgetDataResult = singleProduct.getData();
+        
 
         console.log(singleProductgetDataResult);
 
